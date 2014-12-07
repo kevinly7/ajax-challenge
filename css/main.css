@@ -7,11 +7,38 @@ body {
 
 .product-picture {
     float: left;
-    height: 150px;
+    height: 200px;
+    margin-left: 15px;
     margin-right: 10px;
 }
 
-#poop {
+#votes{
+    position: relative;
+    right: -25px;
+    top: 50px
+}
+
+.arrow {
+    height: 24px;
+}
+
+#comment {
+    margin-right: 50px;
+}
+
+#author {
+    font-style: italic;
+}
+
+#vote-amount {
+    margin-left: 6px;
+}
+
+form {
+    position: relative;
 
 }
 
+section {
+    padding: 1em;
+}

@@ -16,19 +16,23 @@
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus esse molestias officia placeat
                     possimus quaerat quis saepe unde voluptas voluptates. Blanditiis consectetur et eum, eveniet
-                    laudantium quam saepe sequi similique.
+                    laudantium quam saepe sequi similique. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    Aperiam beatae consequuntur cumque deleniti eos est eum fugit hic maiores nulla placeat porro quas,
+                    quasi recusandae, saepe sequi tenetur! Repudiandae, velit. Lorem ipsum dolor sit amet, consectetur
+                    adipisicing elit. Blanditiis dicta dolor facere illum labore maiores, nam nemo nisi odio, odit quam
+                    quisquam, repellendus sequi soluta suscipit ullam unde vitae voluptatibus.
                 </p>
             </section>
 
-            <section id="add-comment">
-                <h2>Add a Comment</h2>
+            <section id="add-review">
+                <h2>Add a Review</h2>
 
                 <form name="form" class="form-horizontal" role="form" ng-submit="addReview()">
                     <!--name-->
                     <div class="form-group">
                         <label for="name" class="col-sm-2 control-label">Name</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control ng-pristine ng-untouched ng-valid" id="name" placeholder="Name" ng-model="newReview.name">
+                            <input type="text" class="form-control ng-pristine ng-untouched ng-valid" placeholder="Name" ng-model="newReview.name">
                         </div>
                     </div>
 
@@ -36,7 +40,7 @@
                     <div class="form-group">
                         <label for="title" class="col-sm-2 control-label">Title</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control ng-pristine ng-untouched ng-valid" id="title" placeholder="Title" ng-model="newReview.title">
+                            <input type="text" class="form-control ng-pristine ng-untouched ng-valid" placeholder="Title" ng-model="newReview.title">
                         </div>
                     </div>
 
@@ -64,28 +68,26 @@
                     </div>
                 </form>
             </section>
+            
+            <section id="review-rating">
+                <h2>Reviews and Ratings <img src="img/ajax-spinner.gif" alt="loading animation" ng-if="loading"/></h2>
 
-            <section>
-                <h2>Comments</h2>
-
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Rating</th>
-                        <th>Title</th>
-                        <th>Reviews</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="review in reviews">
-                        <td>{{review.name}}</td>
-                        <td>{{review.title}}</td>
-                        <td><rating max="5" ng-model="review.rating" readonly="true"></rating></td>
-                        <td>{{review.comment}}</td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div ng-repeat="review in reviews">
+                    <div>
+                        <span style="cursor:pointer"><img src="img/delete.png" alt="delete icon" class="pull-right" ng-click="deleteReview(review)"/></span>
+                        <span id="votes" class="pull-right">
+                            <span style="cursor:pointer"><img src="img/up-arrow.png" alt="up arrow icopn" class="arrow" ng-click="incrementVotes(review, 1)"/></span>
+                            <h4 id="vote-amount">{{review.votes || 0}}</h4>
+                            <span style="cursor:pointer"><img src="img/down-arrow.png" alt="down arrow icon" class="arrow" ng-click="incrementVotes(review, -1)"/></span>
+                        </span>
+                        <h4 id="rating"><rating max="5" ng-model="review.rating" readonly="true"></rating></h4>
+                        <h3 id="title">{{review.title}}</h3>
+                        <p id="comment">{{review.comment}}</p>
+                        <p id="author">Written by {{review.name}}</p>
+                        <hr/>
+                    </div>
+                </div>
+                <a href="#"> Back to Top ↑</a>
             </section>
 
         </main>

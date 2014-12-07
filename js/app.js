@@ -13,9 +13,9 @@ angular.module('ReviewsApp', ['ui.bootstrap'])
         $httpProvider.defaults.headers.common['X-Parse-REST-API-Key'] = 'G508ig1FqBVtjMXXh4v620ryqNWIJCih302SRQO8';
     })
     .controller('ReviewsController', function($scope, $http) {
-        $scope.refreshReviews = function() {
+        $scope.refreshReviews = function(   ) {
             $scope.loading = true;
-            $http.get(reviewsUrl)
+            $http.get(reviewsUrl + '?order=-votes')
                 .success(function(data) {
                     $scope.reviews = data.results;
                 })
@@ -37,46 +37,46 @@ angular.module('ReviewsApp', ['ui.bootstrap'])
                     $scope.newReview.objectId = responseData.objectId;
                     $scope.reviews.push($scope.newReview);
                     $scope.newReview = {};
+                    $scope.refreshReviews()
                 })
                 .error(function(err) {
                     $scope.errorMessage = err;
                 });
         };
 
-        //$scope.incrementVotes = function(comment, amount) {
-        //    $scope.updating = true;
-        //    if (!(amount == -1 && comment.score == 0)) {
-        //
-        //        $http.put(commentsUrl + '/' + comment.objectId, {
-        //            score: {
-        //                __op: 'Increment',
-        //                amount: amount
-        //            }
-        //        })
-        //            .success(function (responseData) {
-        //                console.log(responseData);
-        //                comment.score = responseData.score;
-        //            })
-        //            .error(function (err) {
-        //                console.log(err)
-        //            })
-        //            .finally(function () {
-        //                $scope.updating = false;
-        //            })
-        //    }
-        //}
-        //
-        //$scope.deleteComment = function(comment) {
-        //    $scope.updating = true;
-        //    $http.delete(commentsUrl + '/' + comment.objectId)
-        //        .success(function (responseData) {
-        //            $scope.refreshComments();
-        //        })
-        //        .error(function (err) {
-        //            console.log(err);
-        //        })
-        //        .finally(function () {
-        //            $scope.updating = false;
-        //        })
-        //}
+        $scope.deleteReview = function(review) {
+            $scope.updating = true;
+            $http.delete(reviewsUrl + '/' + review.objectId)
+                .success(function (responseData) {
+                    $scope.refreshReviews();
+                })
+                .error(function (err) {
+                    console.log(err);
+                })
+                .finally(function () {
+                    $scope.updating = false;
+                })
+        }
+
+        $scope.incrementVotes = function(review, amount) {
+            $scope.updating = true;
+            if (!(amount == -1 && review.score == 0)) {
+                $http.put(reviewsUrl + '/' + review.objectId, {
+                    votes: {
+                        __op: 'Increment',
+                        amount: amount
+                    }
+                })
+                    .success(function (responseData) {
+                        console.log(responseData);
+                        review.votes = responseData.votes;
+                    })
+                    .error(function (err) {
+                        console.log(err)
+                    })
+                    .finally(function () {
+                        $scope.updating = false;
+                    })
+            }
+        }
     });
